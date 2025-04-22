@@ -36,6 +36,11 @@ public class Client {
 	
 	@Column(length = 15, nullable = false)
 	private String noTelephone;
-	
 
+	@NonNull
+	@OneToOne(cascade = CascadeType.ALL,
+			orphanRemoval = true, optional = false,
+			fetch = FetchType.EAGER)
+	@JoinColumn(name = "no_adresse")
+	private Adresse adresse;
 }
