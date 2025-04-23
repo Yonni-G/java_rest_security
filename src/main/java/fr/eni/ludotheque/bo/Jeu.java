@@ -1,10 +1,7 @@
 package fr.eni.ludotheque.bo;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +15,7 @@ public class Jeu {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="no_jeu")
+	@EqualsAndHashCode.Exclude
 	private Integer noJeu;
 	
 	@Column( length=50, nullable=false)
