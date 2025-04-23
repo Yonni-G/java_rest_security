@@ -8,10 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 @Data
 @NoArgsConstructor
@@ -20,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 public class Exemplaire {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@EqualsAndHashCode.Exclude
 	private Integer noExemplaire;
 	
 	@Column(length=13, nullable = false, unique = true)
