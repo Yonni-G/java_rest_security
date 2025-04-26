@@ -10,4 +10,8 @@ public interface ClientService {
 	public Client ajouterClient(ClientDTO clientDto);
 
 	public List<Client> trouverClientsParNom(String nom);
+
+	public Client modifierClient(Integer noClient, ClientDTO clientDto);
+
+	public Client trouverClientParId(Integer id);
 }

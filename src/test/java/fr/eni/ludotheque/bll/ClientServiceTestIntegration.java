@@ -4,11 +4,11 @@ package fr.eni.ludotheque.bll;
 
 import fr.eni.ludotheque.bo.Client;
 import fr.eni.ludotheque.dto.ClientDTO;
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -41,11 +41,10 @@ public class ClientServiceTestIntegration {
 
 
 
-	/*
 	@Test
 	@DisplayName("Test modification complète client")
 	@Transactional
-	public void testModifierClient() {
+	public void testModifierClientEtAdresseCasPositif() {
 		// Arrange
 		ClientDTO clientDto = new ClientDTO("nX", "pX", "eX", "telX","rue des Cormorans", "44860", "Saint Aignan Grand Lieu");
 		Client newClient = clientService.ajouterClient(clientDto);
@@ -53,18 +52,24 @@ public class ClientServiceTestIntegration {
 		clientDto.setEmail("bob@free.fr");
 		clientDto.setNom("nXX");
 		clientDto.setPrenom("pXX");
+		clientDto.setRue("rue Franklin");
+		clientDto.setCodePostal("44800");
+		clientDto.setVille("Saint Herblain");
 		
 		// Act
 		clientService.modifierClient(newClient.getNoClient(),clientDto);
 
 		// Assert
 		Client client2 = clientService.trouverClientParId(newClient.getNoClient());
-		assertThat(client2.getEmail()).isEqualTo(newClient.getEmail());
-		assertThat(client2.getNom()).isEqualTo(newClient.getNom());
-		assertThat(client2.getPrenom()).isEqualTo(newClient.getPrenom());
+		assertThat(client2.getEmail()).isEqualTo(clientDto.getEmail());
+		assertThat(client2.getNom()).isEqualTo(clientDto.getNom());
+		assertThat(client2.getPrenom()).isEqualTo(clientDto.getPrenom());
+		assertThat(client2.getAdresse().getRue()).isEqualTo(clientDto.getRue());
+		assertThat(client2.getAdresse().getCodePostal()).isEqualTo(clientDto.getCodePostal());
+		assertThat(client2.getAdresse().getVille()).isEqualTo(clientDto.getVille());
+
 	}
 
-	 */
 
 	/*
 	@Test
