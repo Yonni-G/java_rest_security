@@ -4,6 +4,7 @@ package fr.eni.ludotheque.bll;
 
 import fr.eni.ludotheque.bo.Client;
 import fr.eni.ludotheque.dto.ClientDTO;
+import fr.eni.ludotheque.exceptions.DataNotFound;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 public class ClientServiceTestIntegration {
@@ -67,6 +69,21 @@ public class ClientServiceTestIntegration {
 		assertThat(client2.getAdresse().getRue()).isEqualTo(clientDto.getRue());
 		assertThat(client2.getAdresse().getCodePostal()).isEqualTo(clientDto.getCodePostal());
 		assertThat(client2.getAdresse().getVille()).isEqualTo(clientDto.getVille());
+
+	}
+
+
+	@Test
+	@DisplayName("Test modification complète client cas client non trouvé")
+	@Transactional
+	public void testModifierClientEtAdresseCasClientNonTrouve() {
+		// Arrange
+		ClientDTO clientDto = new ClientDTO("nX", "pX", "eX", "telX","rue des Cormorans", "44860", "Saint Aignan Grand Lieu");
+
+
+		// Act
+		// Assert
+		assertThrows(DataNotFound.class, ()-> clientService.modifierClient(9999,clientDto));
 
 	}
 
