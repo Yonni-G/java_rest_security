@@ -2,7 +2,9 @@ package fr.eni.ludotheque.bll;
 
 import fr.eni.ludotheque.bo.Adresse;
 import fr.eni.ludotheque.bo.Client;
+import fr.eni.ludotheque.dal.AdresseRepository;
 import fr.eni.ludotheque.dal.ClientRepository;
+import fr.eni.ludotheque.dto.AdresseDTO;
 import fr.eni.ludotheque.dto.ClientDTO;
 import fr.eni.ludotheque.exceptions.DataNotFound;
 import fr.eni.ludotheque.exceptions.EmailClientAlreadyExistException;
@@ -20,6 +22,8 @@ import java.util.Optional;
 public class ClientServiceImpl implements ClientService{
 	@NonNull
 	private ClientRepository clientRepository;
+	@NonNull
+	private AdresseRepository adresseRepository;
 	
 	@Override
 	public Client ajouterClient(ClientDTO clientDto)  {
@@ -74,4 +78,17 @@ public class ClientServiceImpl implements ClientService{
 		}
 		return optClient.get();
 	}
+
+	@Override
+	public Client modifierAdresse(Integer noClient, AdresseDTO adresseDto) {
+		Client client = clientRepository.findById(noClient).orElseThrow(()->new DataNotFound("Client", noClient));
+
+		BeanUtils.copyProperties(adresseDto, client.getAdresse());
+
+		adresseRepository.save(client.getAdresse());
+
+		return client;
+
+	}
+
 }

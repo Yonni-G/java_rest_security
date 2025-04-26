@@ -2,25 +2,34 @@ package fr.eni.ludotheque.bll;
 
 //import static org.mockito.Mockito.doAnswer;
 
+import fr.eni.ludotheque.bo.Adresse;
 import fr.eni.ludotheque.bo.Client;
+import fr.eni.ludotheque.dal.AdresseRepository;
+import fr.eni.ludotheque.dto.AdresseDTO;
 import fr.eni.ludotheque.dto.ClientDTO;
 import fr.eni.ludotheque.exceptions.DataNotFound;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 @SpringBootTest
 public class ClientServiceTestIntegration {
 
 	@Autowired
 	private ClientService clientService;
+
+	@Autowired
+	private AdresseRepository adresseRepository;
 
 	@Test
 	@DisplayName("Trouver les clients dont le nom commence par")
@@ -88,7 +97,6 @@ public class ClientServiceTestIntegration {
 	}
 
 
-	/*
 	@Test
 	@DisplayName("Test modification de l'adresse d'un client")
 	@Transactional
@@ -121,5 +129,5 @@ public class ClientServiceTestIntegration {
 		}
 		
 	}
-*/
+
 }
