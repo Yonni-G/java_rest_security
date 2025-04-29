@@ -32,6 +32,8 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testCompileOnly 'org.projectlombok:lombok' // NÉCESSAIRE pour les tests
+    testAnnotationProcessor 'org.projectlombok:lombok' // NÉCESSAIRE pour les tests
 }
 
 tasks.named('test') {
