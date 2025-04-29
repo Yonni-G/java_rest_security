@@ -28,14 +28,17 @@ public class JeuServiceTestIntegration {
 	private JeuRepository jeuRepository;
 
 	
-	//@Test
+	@Test
 	@DisplayName("Test ajout jeu")
 	@Transactional
 	public void testAjoutJeu() {
 		// Arrange
-		Jeu jeu = new Jeu("Welcome", "refWelcome", 10.2f);
-		jeu.addGenre(new Genre(1, ""));
+		Jeu jeu = new Jeu("50 missions", "refMissions", 10.2f);
+		jeu.setDescription("Description de 50 missions");
+		jeu.setDuree(20);
+		jeu.setAgeMin(8);
 		jeu.addGenre(new Genre(2, ""));
+		jeu.addGenre(new Genre(4, ""));
 
 		// Act
 		jeuService.ajouterJeu(jeu);
@@ -48,21 +51,34 @@ public class JeuServiceTestIntegration {
 		}
 		
 		assertThat(jeuDB.get()).isEqualTo(jeu);
+		assertThat(jeuDB.get().getTitre()).isEqualTo(jeu.getTitre());
+		assertThat(jeuDB.get().getDescription()).isEqualTo(jeu.getDescription());
+		assertThat(jeuDB.get().getAgeMin()).isEqualTo(jeu.getAgeMin());
+		assertThat(jeuDB.get().getDuree()).isEqualTo(jeu.getDuree());
+		assertThat(jeuDB.get().getTarifJour()).isEqualTo(jeu.getTarifJour());
 		assertThat(jeuDB.get().getGenres().size()).isEqualTo(jeu.getGenres().size());
 	}
 
 
-	//@Test
-	//@DisplayName("Trouver un jeu par son numéro de jeu
+	@Test
+	@DisplayName("Trouver un jeu par son numéro de jeu")
 	public void testTrouverJeuParNoJeu() {
+		//Arrange
+		Jeu welcome = jeuRepository.findByReference("refWelcome");
+
+		//Act
 		Jeu jeuDB = null;
 		try {
-			jeuDB = jeuService.trouverJeuParNoJeu(1);
+			jeuDB = jeuService.trouverJeuParNoJeu(welcome.getNoJeu());
 		}catch(DataNotFound dnf) {
 			fail();
 			return;
 		}
 		log.info(jeuDB.toString());
+		assertThat(jeuDB).isEqualTo(welcome);
+		assertThat(jeuDB.getTitre()).isEqualTo(welcome.getTitre());
+		assertThat(jeuDB.getDescription()).isEqualTo(welcome.getDescription());
+
 
 	}
 
@@ -71,8 +87,9 @@ public class JeuServiceTestIntegration {
 	public void testTrouverJeuxDisponibles() {
 		
 		List<Jeu> jeux = jeuService.listeJeuxCatalogue("TOUS");
-		
+		System.out.println("------------------------------------------------------------------");
 		jeux.forEach(System.out::println);
+		System.out.println("------------------------------------------------------------------");
 		log.info(jeux.toString());
 	}
 

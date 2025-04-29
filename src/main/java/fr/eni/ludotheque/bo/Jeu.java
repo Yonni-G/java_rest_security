@@ -9,19 +9,20 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name="JEUX")
 public class Jeu {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="no_jeu")
-	@EqualsAndHashCode.Exclude
 	private Integer noJeu;
 	
 	@Column( length=50, nullable=false)
 	@NonNull
 	private String titre;
-	
+
+	@EqualsAndHashCode.Include
 	@Column(length=13, nullable=false, unique=true)
 	@NonNull private String reference;
 	
@@ -36,9 +37,6 @@ public class Jeu {
 	@Column(nullable=false)
 	@NonNull
 	private Float tarifJour;
-
-	@Transient
-	private int nbExemplaires;
 
 	@Transient
 	private int nbExemplairesDisponibles;
