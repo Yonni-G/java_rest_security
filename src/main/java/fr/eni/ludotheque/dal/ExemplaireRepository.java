@@ -20,8 +20,10 @@ public interface ExemplaireRepository extends JpaRepository<Exemplaire, Integer>
 					+ " group by e.codebarre ")
 	int nbExemplairesDisponibleByNoJeu(@Param("noJeu") Integer noJeu);
 	
-	@Query("SELECT e FROM Exemplaire e LEFT JOIN FETCH e.jeu WHERE e.codebarre = :codebarre")
-	Exemplaire findByCodebarreWithJeu(@Param("codebarre") String codebarre);
+	//@Query("SELECT e FROM Exemplaire e JOIN FETCH e.jeu WHERE e.codebarre = :codebarre")
+	//Exemplaire findByCodebarreWithJeu(@Param("codebarre") String codebarre);
+
+	Exemplaire findByCodebarre(String codebarre);
 	
 	
 	

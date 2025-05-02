@@ -1,4 +1,5 @@
 begin
+drop table locations;
 drop table clients;
 drop table adresses;
 drop table exemplaire;

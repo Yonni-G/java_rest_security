@@ -32,7 +32,8 @@ public class LocationServiceImpl implements LocationService{
 	
 	@Override
 	public Location ajouterLocation(LocationDTO locationDto  ) {
-		Exemplaire exemplaire = exemplaireRepository.findByCodebarreWithJeu(locationDto.getCodebarre());
+		//Exemplaire exemplaire = exemplaireRepository.findByCodebarreWithJeu(locationDto.getCodebarre());
+		Exemplaire exemplaire = exemplaireRepository.findByCodebarre(locationDto.getCodebarre());
 		Client client = new Client();
 		client.setNoClient(locationDto.getNoClient());
 					

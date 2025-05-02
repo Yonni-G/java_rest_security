@@ -20,7 +20,7 @@ public class Exemplaire {
 	@Basic(optional = false)
 	private boolean louable=true;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="no_jeu", referencedColumnName = "no_jeu")
 	@NonNull
 	private Jeu jeu;
