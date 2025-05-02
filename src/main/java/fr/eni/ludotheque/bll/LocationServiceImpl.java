@@ -57,7 +57,7 @@ public class LocationServiceImpl implements LocationService{
 			location.setDateRetour(LocalDateTime.now());
 			facture.addLocation(location);
 			//TODO : save date retour 
-			long nbJours = ChronoUnit.DAYS.between(location.getDateDebut(), location.getDateRetour());
+			long nbJours = ChronoUnit.DAYS.between(location.getDateDebut(), location.getDateRetour()) +1;
 			prix += (nbJours * location.getTarifJour());
 		}
 		facture.setPrix(prix);

@@ -12,6 +12,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -61,8 +62,8 @@ public class ClientServiceImpl implements ClientService{
 		Client clientBD = null;
 		try {
 			clientBD = clientRepository.save(client);
-		} catch (RuntimeException e) {
-			e.printStackTrace();
+		} catch (OptimisticLockingFailureException e) {//thrown if entity is assumed to be present but does not exists in db
+			//e.printStackTrace();
 			throw new DataNotFound("Client", noClient);
 		}
 

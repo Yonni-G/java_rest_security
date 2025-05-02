@@ -6,6 +6,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -24,7 +25,7 @@ public class Facture {
 	
 	@OneToMany
 	@JoinColumn(name="no_facture")
-	private List<Location> locations;
+	private List<Location> locations=new ArrayList<Location>();
 	
 	
 	//@Transient // attribut calculable  
