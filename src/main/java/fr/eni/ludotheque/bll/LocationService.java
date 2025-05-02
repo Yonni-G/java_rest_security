@@ -11,6 +11,8 @@ public interface LocationService {
 	Location ajouterLocation(LocationDTO locationDto);
 	
 	Facture retourExemplaires( List<String> codebarres);
-	
+
+	Facture payerFacture( Integer noFacture);
+
 	void trouverLocationParExemplaireCodebarre(String codebarre);
 }

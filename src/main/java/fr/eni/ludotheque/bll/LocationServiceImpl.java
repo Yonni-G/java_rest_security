@@ -5,6 +5,7 @@ import fr.eni.ludotheque.bo.Exemplaire;
 import fr.eni.ludotheque.bo.Facture;
 import fr.eni.ludotheque.bo.Location;
 import fr.eni.ludotheque.dal.ExemplaireRepository;
+import fr.eni.ludotheque.dal.FactureRepository;
 import fr.eni.ludotheque.dal.JeuRepository;
 import fr.eni.ludotheque.dal.LocationRepository;
 import fr.eni.ludotheque.dto.LocationDTO;
@@ -29,7 +30,10 @@ public class LocationServiceImpl implements LocationService{
 	@NonNull
 	final private ExemplaireRepository exemplaireRepository;
 
-	
+	@NonNull
+	final private FactureRepository factureRepository;
+
+
 	@Override
 	public Location ajouterLocation(LocationDTO locationDto  ) {
 		//Exemplaire exemplaire = exemplaireRepository.findByCodebarreWithJeu(locationDto.getCodebarre());
@@ -48,7 +52,7 @@ public class LocationServiceImpl implements LocationService{
 	@Override
 	@Transactional
 	public Facture retourExemplaires(List<String> codebarres) {
-		Facture facture = new Facture(LocalDateTime.now());
+		Facture facture = new Facture();
 		//facture
 		Location location = null;
 		float prix = 0;
@@ -61,7 +65,14 @@ public class LocationServiceImpl implements LocationService{
 			prix += (nbJours * location.getTarifJour());
 		}
 		facture.setPrix(prix);
-		return facture;
+        return factureRepository.save(facture);
+	}
+
+	public Facture payerFacture( Integer noFacture){
+		Facture facture = factureRepository.findById(noFacture).orElse(null);
+		facture.setDatePaiement(LocalDateTime.now());
+		Facture factureBD = factureRepository.save(facture);
+		return factureBD;
 	}
 
 	@Override

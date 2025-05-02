@@ -19,7 +19,6 @@ public class Facture {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer noFacture;
 	
-	@NonNull
 	@Basic(optional = true)
 	private LocalDateTime datePaiement;
 	

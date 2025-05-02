@@ -68,4 +68,25 @@ public class LocationServiceTestIntegration {
     }
 
 
+    @Test
+    @DisplayName("Test payer facture")
+    @Transactional
+    public void testPayerFacture() {
+        //Arrange
+        Client client = clientRepository.findByNoTelephone("123456789");
+        LocationDTO locationDTO1 = new LocationDTO(client.getNoClient(), "6666666666666");
+        Location loc1 = locationService.ajouterLocation(locationDTO1);
+        LocationDTO locationDTO2 = new LocationDTO(client.getNoClient(), "1111111111111");
+        Location loc2 = locationService.ajouterLocation(locationDTO2);
+        List<String> codebarres = List.of("1111111111111", "6666666666666");
+        Facture facture = locationService.retourExemplaires(codebarres);
+
+        //act
+        Facture facture2 = locationService.payerFacture(facture.getNoFacture());
+
+        //Assert
+        assertThat(facture2).isNotNull();
+        assertThat(facture2.getDatePaiement()).isNotNull();
+    }
+
 }
