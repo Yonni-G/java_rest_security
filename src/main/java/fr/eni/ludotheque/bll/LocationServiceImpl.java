@@ -4,11 +4,9 @@ import fr.eni.ludotheque.bo.Client;
 import fr.eni.ludotheque.bo.Exemplaire;
 import fr.eni.ludotheque.bo.Facture;
 import fr.eni.ludotheque.bo.Location;
-import fr.eni.ludotheque.dal.ExemplaireRepository;
-import fr.eni.ludotheque.dal.FactureRepository;
-import fr.eni.ludotheque.dal.JeuRepository;
-import fr.eni.ludotheque.dal.LocationRepository;
+import fr.eni.ludotheque.dal.*;
 import fr.eni.ludotheque.dto.LocationDTO;
+import fr.eni.ludotheque.exceptions.DataNotFound;
 import jakarta.transaction.Transactional;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -33,21 +31,32 @@ public class LocationServiceImpl implements LocationService{
 	@NonNull
 	final private FactureRepository factureRepository;
 
+	@NonNull
+	final private ClientRepository clientRepository;
+
 
 	@Override
-	public Location ajouterLocation(LocationDTO locationDto  ) {
-		//Exemplaire exemplaire = exemplaireRepository.findByCodebarreWithJeu(locationDto.getCodebarre());
+	public Location ajouterLocation(LocationDTO locationDto) {
 		Exemplaire exemplaire = exemplaireRepository.findByCodebarre(locationDto.getCodebarre());
-		Client client = new Client();
-		client.setNoClient(locationDto.getNoClient());
-					
-		Location location = new Location(LocalDateTime.now(),client, exemplaire );
+		if (exemplaire == null) {
+			throw new DataNotFound("Exemplaire", locationDto.getCodebarre());
+		}
+
+		Client client = clientRepository.findById(locationDto.getNoClient())
+				.orElseThrow(() -> new DataNotFound("Client", locationDto.getNoClient()));
+
+		if (exemplaire.getJeu() == null) {
+			throw new DataNotFound("Jeu", "lié à l'exemplaire " + locationDto.getCodebarre());
+		}
+
 		Float tarifJour = jeuRepository.findTarifJour(exemplaire.getJeu().getNoJeu());
+
+		Location location = new Location(LocalDateTime.now(), client, exemplaire);
 		location.setTarifJour(tarifJour);
-		Location newLoc = locationRepository.save(location);
-		
-		return newLoc;
+
+		return locationRepository.save(location);
 	}
+
 
 	@Override
 	@Transactional
@@ -59,8 +68,11 @@ public class LocationServiceImpl implements LocationService{
 		for(String codebarre : codebarres) {
 			location = locationRepository.findLocationByCodebarreWithJeu(codebarre);
 			location.setDateRetour(LocalDateTime.now());
+			// il faut sauver la location avec sa date de retour
+			locationRepository.save(location);
+
 			facture.addLocation(location);
-			//TODO : save date retour 
+
 			long nbJours = ChronoUnit.DAYS.between(location.getDateDebut(), location.getDateRetour()) +1;
 			prix += (nbJours * location.getTarifJour());
 		}

@@ -9,7 +9,11 @@ BEGIN
 	delete from jeux_genres;
 	delete from exemplaires;
 	delete from jeux;
-	delete from genres;
+    delete from genres;
+delete from utilisateurs;
+delete from roles;
+delete from utilisateurs_roles;
+
 insert into genres (no_genre, libelle) values (1, 'Jeu de plateau');
 insert into genres (no_genre, libelle) values (2, 'Jeu de cartes');
 insert into genres (no_genre, libelle) values (3, 'Jeu de stratégie');
@@ -34,4 +38,5 @@ insert into jeux_genres(no_jeu, no_genre) values (@no_jeu, 3);
 insert into exemplaires (no_jeu, codebarre, louable) values (@no_jeu, '4444444444444', 1);
 insert into exemplaires (no_jeu, codebarre, louable) values (@no_jeu, '5555555555555', 0);
 insert into exemplaires (no_jeu, codebarre, louable) values (@no_jeu, '6666666666666', 1);
+
 END;

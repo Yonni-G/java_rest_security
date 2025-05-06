@@ -41,7 +41,6 @@ public class JeuServiceImpl implements JeuService{
 		
 	}
 
-
 	@Override
 	public List<Jeu> listeJeuxCatalogue(String filtreTitre) {
 		List<Jeu> jeux = jeuRepository.findAllJeuxAvecNbExemplaires(filtreTitre);

@@ -19,6 +19,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -34,23 +35,28 @@ public class ClientServiceTest {
 	@DisplayName("Ajout d'un client cas positif")
 	public void testAjouterClientCasPositif() {
 		//Arrange
+		ClientDTO clientDto = new ClientDTO("n1", "p1", "e1", "tel1", "rue des Cormorans", "44860", "Saint Aignan Grand Lieu");
 		Adresse adresse = new Adresse("rue des Cormorans", "44860", "Saint Aignan Grand Lieu");
 		Client client = new Client("n1", "p1", "e1", adresse);
 		client.setNoTelephone("tel1");
-		ClientDTO clientDto = new ClientDTO("n1", "p1", "e1", "tel1", "rue des Cormorans", "44860", "Saint Aignan Grand Lieu");
-		
+		client.setNoClient(999);
+
+		/*
 		org.mockito.Mockito.doAnswer((invocation) -> {
 			Client cli = invocation.getArgument(0);
 			cli.setNoClient(999);
 			return cli;
 						}).when(clientRepository).save(client);
-		
+		 */
+		when(clientRepository.save(any(Client.class))).thenReturn(client);
+
 		//Act
-		clientService.ajouterClient(clientDto);
+		Client clientActual = clientService.ajouterClient(clientDto);
 
 		//Assert
-		assertThat(client.getNoClient()).isNotNull();
-		assertThat(client.getNoClient()).isEqualTo(999);
+		assertThat(clientActual).isNotNull();
+		assertThat(clientActual.getNoClient()).isNotNull();
+		assertThat(clientActual.getNoClient()).isEqualTo(999);
 		
 	}
 
@@ -143,16 +149,7 @@ public class ClientServiceTest {
 	}
 	*/
 	
-	@Test
-	@DisplayName("Test modification de l'adresse d'un client")
-	public void testModificationAdresseCasPositif() {
-		//
-		
-		//Act
-		//clientService.modifierAdresse(adresse);
-		
-	}
-	
+
 }
 
 

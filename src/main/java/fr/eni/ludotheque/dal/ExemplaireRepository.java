@@ -6,6 +6,8 @@ import org.springframework.data.repository.query.Param;
 
 import fr.eni.ludotheque.bo.Exemplaire;
 
+import java.util.Optional;
+
 public interface ExemplaireRepository extends JpaRepository<Exemplaire, Integer>{
 
 	@Query(nativeQuery = true,
@@ -24,7 +26,5 @@ public interface ExemplaireRepository extends JpaRepository<Exemplaire, Integer>
 	//Exemplaire findByCodebarreWithJeu(@Param("codebarre") String codebarre);
 
 	Exemplaire findByCodebarre(String codebarre);
-	
-	
-	
+
 }

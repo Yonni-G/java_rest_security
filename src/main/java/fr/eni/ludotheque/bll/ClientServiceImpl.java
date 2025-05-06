@@ -25,7 +25,16 @@ public class ClientServiceImpl implements ClientService{
 	private ClientRepository clientRepository;
 	@NonNull
 	private AdresseRepository adresseRepository;
-	
+
+	@Override
+	public void supprimerClient(Integer id) throws DataNotFound {
+		Optional<Client> optClient = clientRepository.findById(id);
+		if(optClient.isEmpty()) {
+			throw new DataNotFound("Client", id);
+		}
+		clientRepository.delete(optClient.get());
+	}
+
 	@Override
 	public Client ajouterClient(ClientDTO clientDto)  {
 
@@ -34,12 +43,12 @@ public class ClientServiceImpl implements ClientService{
 		BeanUtils.copyProperties(clientDto, client);
 		BeanUtils.copyProperties(clientDto, adresse);
 		client.setAdresse(adresse);
+		Client newClient = null;
 		try {
-			clientRepository.save(client);
+			newClient = clientRepository.save(client);
 		}catch(DataIntegrityViolationException ex) {
 			throw new EmailClientAlreadyExistException();
 		}
-		Client newClient = clientRepository.findById(client.getNoClient()).orElseThrow(()->new DataNotFound("Client", client.getNoClient()));
 
 		return newClient;
 	}
