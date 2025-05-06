@@ -30,7 +30,7 @@ public class LudothequeUserDetailsService implements UserDetailsService {
 
         User.UserBuilder builder = User.withUsername(username)
                 .password(utilisateur.getPassword())
-                .authorities(authorities); 
+                .authorities(authorities);
 
         return builder.build();
     }
